@@ -6,7 +6,8 @@ import { getAllPostIds, getPostData } from '@/lib/posts'
 export default function Post({ post }) {
   const router = useRouter()
 
-  if (!post) {
+  // 存在していないIDにアクセスがあった場合、isFallbackの値がtrueになる
+  if (router.isFallback || !post) {
     return <div>Loading...</div>
   }
 
@@ -47,6 +48,8 @@ export async function getStaticPaths() {
 
   return {
     paths,
+    // fallback: false, 存在しないidが指定されたら404ページへリダイレクトされるが、新たに動的にidが作られた場合でも404になってしまう
+    // それを防ぐ場合はfallback: true, にする が!!!!NextのUPDATEによって、内容変わってるかも。。。
     fallback: false,
   }
 }

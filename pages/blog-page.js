@@ -4,7 +4,6 @@ import { getAllPostsData } from '@/lib/posts'
 import Link from 'next/link'
 
 export default function BlogPage({ filteredPosts }) {
-  console.log(filteredPosts)
   return (
     <Layout title="Blog page">
       <ul>
