@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import Cookies from 'universal-cookie' // Cookieを使用するためのライブラリをimport
-
 import { LockClosedIcon } from '@heroicons/react/solid'
 
 export default function Auth() {
