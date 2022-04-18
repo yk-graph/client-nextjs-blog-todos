@@ -31,13 +31,15 @@ export default function Auth() {
         }
       )
         .then((res) => {
-          // 返却値はresとdataになる
+          // 返却値をresとして受け取る
           if (res.status === 400) {
             throw 'authentication failed' // statusが400だったらthrowで例外処理を記述
           } else if (res.ok) {
+            // statusがOKの時は、APIの返却値をJSON形式に変換してreturnする
             return res.json()
           }
         })
+        // JSON形式になって返却された値をdataとして受け取る
         .then((data) => {
           const options = { path: '/' }
           // 第一引数：cookieのkey名, 第二引数：cookieのvalueの値, 第三引数：指定したパスの中でcookieが有効に使えるという制限
@@ -64,18 +66,16 @@ export default function Auth() {
           headers: {
             'Content-Type': 'application/json',
           },
-        })
-          .then((res) => {
-            if (res.status === 400) {
-              throw 'authentication failed'
-            } else if (res.status === 201) {
-              return res.json()
-            }
-          })
-          .then((data) => {
+        }).then((res) => {
+          if (res.status === 400) {
+            throw 'authentication failed'
+          } else if (res.status === 201) {
+            // statusがOKだったら、APIからの返却値をJSON形式にして中の値を取得する
+            const data = res.json()
             alert(`${data.username}さん、登録ありがとうございます！`)
             login()
-          })
+          }
+        })
       } catch (error) {
         alert(error)
       }
