@@ -16,17 +16,20 @@ export default function Auth() {
    */
   const login = async () => {
     try {
-      await fetch(`http://127.0.0.1:8000/api/auth/jwt/create/`, {
-        method: 'POST', // fetchメソッドでPOSTリクエストを送る時の記述
-        // fetchメソッドでPOSTリクエストを送る時のbodyの内容はJSON.stringifyでjson形式にする
-        body: JSON.stringify({
-          username,
-          password,
-        }),
-        headers: {
-          'Content-Type': 'application/json', // POSTリクエストの時は必須
-        },
-      })
+      await fetch(
+        `${process.env.NEXT_PUBLIC_RESTAPI_URL}api/auth/jwt/create/`,
+        {
+          method: 'POST', // fetchメソッドでPOSTリクエストを送る時の記述
+          // fetchメソッドでPOSTリクエストを送る時のbodyの内容はJSON.stringifyでjson形式にする
+          body: JSON.stringify({
+            username,
+            password,
+          }),
+          headers: {
+            'Content-Type': 'application/json', // POSTリクエストの時は必須
+          },
+        }
+      )
         .then((res) => {
           // 返却値をresとして受け取る
           if (res.status === 400) {
@@ -58,7 +61,7 @@ export default function Auth() {
       login()
     } else {
       try {
-        await fetch(`http://127.0.0.1:8000/api/register/`, {
+        await fetch(`${process.env.NEXT_PUBLIC_RESTAPI_URL}api/register/`, {
           method: 'POST',
           body: JSON.stringify({ username, password }),
           headers: {
