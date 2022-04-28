@@ -50,7 +50,7 @@ export async function getStaticPaths() {
     paths,
     // fallback: false, 存在しないidが指定されたら404ページへリダイレクトされるが、新たに動的にidが作られた場合でも404になってしまう
     // それを防ぐ場合はfallback: true, にする が!!!!NextのUPDATEによって、内容変わってるかも。。。
-    fallback: false,
+    fallback: true,
   }
 }
 
@@ -61,5 +61,6 @@ export async function getStaticProps({ params }) {
     props: {
       post,
     },
+    revalidate: 3,
   }
 }
