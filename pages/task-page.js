@@ -1,9 +1,15 @@
 import Layout from '../components/Layout'
 import Link from 'next/link'
+import { getAllTasksData } from '@/lib/tasks'
+import Task from '@/components/Task'
 
-export default function TaskPage() {
+export default function TaskPage({ staticFilteredTasks }) {
   return (
     <Layout title="Task page">
+      <ul>
+        {staticFilteredTasks &&
+          staticFilteredTasks.map((task) => <Task key={task.id} task={task} />)}
+      </ul>
       <Link href="/main-page">
         <div className="flex cursor-pointer mt-12">
           <svg
@@ -25,4 +31,12 @@ export default function TaskPage() {
       </Link>
     </Layout>
   )
+}
+
+export async function getStaticProps() {
+  const staticFilteredTasks = await getAllTasksData()
+
+  return {
+    props: { staticFilteredTasks },
+  }
 }

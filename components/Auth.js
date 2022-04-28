@@ -47,6 +47,7 @@ export default function Auth() {
         })
       router.push('/main-page')
     } catch (error) {
+      // try catch で例外処理を記述しているため、errorの引数に渡ってくる値はthrowで記述した'authentication failed'が渡ってくる
       alert(error)
     }
   }
@@ -77,6 +78,7 @@ export default function Auth() {
           }
         })
       } catch (error) {
+        // try catch で例外処理を記述しているため、errorの引数に渡ってくる値はthrowで記述した'authentication failed'が渡ってくる
         alert(error)
       }
     }
