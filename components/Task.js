@@ -1,9 +1,13 @@
+import { useContext } from 'react'
 import Link from 'next/link'
 import Cookies from 'universal-cookie'
+import { StateContext } from '@/context/StateContext'
 
 const cookie = new Cookies()
 
 export default function Task({ task, taskDeleted }) {
+  const { setSelectedTask } = useContext(StateContext)
+
   const deleteTask = async () => {
     await fetch(`${process.env.NEXT_PUBLIC_RESTAPI_URL}api/tasks/${task.id}/`, {
       method: 'DELETE',
@@ -19,6 +23,7 @@ export default function Task({ task, taskDeleted }) {
     // 処理が完了したら、親コンポーネントから渡ってきたmutateの関数(ここではtaskDeletedと命名)を実行して、サーバーサイド側のデータを即時反映させるようにする
     taskDeleted()
   }
+
   return (
     <li>
       <span>{task.id}</span>
@@ -30,7 +35,7 @@ export default function Task({ task, taskDeleted }) {
       </Link>
 
       <div className="float-right ml-20">
-        {/* <svg
+        <svg
           onClick={() => setSelectedTask(task)}
           className="w-6 h-6 float-left cursor-pointer"
           fill="none"
@@ -44,7 +49,7 @@ export default function Task({ task, taskDeleted }) {
             strokeWidth={2}
             d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
           />
-        </svg> */}
+        </svg>
         <svg
           onClick={deleteTask}
           className="w-6 h-6 mr-2 cursor-pointer"

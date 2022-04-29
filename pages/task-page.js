@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { getAllTasksData } from '../lib/tasks'
 import Task from '../components/Task'
 import useSWR from 'swr'
+import StateContextProvider from '@/context/StateContext'
+import TaskFrom from '@/components/TaskFrom'
 
 /**
  *@useSWR サーバーサイド側の変更を感知してリアルタイムでデータを更新したい時に使う機能
@@ -35,34 +37,37 @@ export default function TaskPage({ staticFilteredTasks }) {
   }, [])
 
   return (
-    <Layout title="Task page">
-      <ul>
-        {filteredTasks &&
-          filteredTasks.map((task) => (
-            // useSWRの関数を子コンポーネントにも渡して、リアルタイムでサーバーサイド側の情報をfetchしてページに反映させる
-            <Task key={task.id} task={task} deleteMutate={mutate} />
-          ))}
-      </ul>
-      <Link href="/main-page">
-        <div className="flex cursor-pointer mt-12">
-          <svg
-            className="w-6 h-6 mr-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
-            />
-          </svg>
-          <span>Back to main page</span>
-        </div>
-      </Link>
-    </Layout>
+    <StateContextProvider>
+      <Layout title="Task page">
+        <TaskFrom taskCreated={mutate} />
+        <ul>
+          {filteredTasks &&
+            filteredTasks.map((task) => (
+              // useSWRの関数を子コンポーネントにも渡して、リアルタイムでサーバーサイド側の情報をfetchしてページに反映させる
+              <Task key={task.id} task={task} deleteMutate={mutate} />
+            ))}
+        </ul>
+        <Link href="/main-page">
+          <div className="flex cursor-pointer mt-12">
+            <svg
+              className="w-6 h-6 mr-3"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
+              />
+            </svg>
+            <span>Back to main page</span>
+          </div>
+        </Link>
+      </Layout>
+    </StateContextProvider>
   )
 }
 
