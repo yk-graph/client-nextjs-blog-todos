@@ -39,6 +39,7 @@ export default function TaskPage({ staticFilteredTasks }) {
       <ul>
         {filteredTasks &&
           filteredTasks.map((task) => (
+            // useSWRの関数を子コンポーネントにも渡して、リアルタイムでサーバーサイド側の情報をfetchしてページに反映させる
             <Task key={task.id} task={task} deleteMutate={mutate} />
           ))}
       </ul>

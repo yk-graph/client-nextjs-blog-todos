@@ -11,13 +11,13 @@ export default function Task({ task, taskDeleted }) {
         'Content-Type': 'application/json', // deleteする時はContent-Typeの指定が必要
         Authorization: `JWT ${cookie.get('access_token')}`, // deleteする時は認証が必要なため、cookieの値を取得する
       },
+    }).then((res) => {
+      if (res.status === 401) {
+        alert('JWT token not valid')
+      }
     })
-      .then((res) => {
-        if (res.status === 401) {
-          alert('JWT token not valid')
-        }
-      })
-      .finally(() => taskDeleted())
+    // 処理が完了したら、親コンポーネントから渡ってきたmutateの関数(ここではtaskDeletedと命名)を実行して、サーバーサイド側のデータを即時反映させるようにする
+    taskDeleted()
   }
   return (
     <li>
